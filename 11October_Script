@@ -1,0 +1,87 @@
+
+//Filter out a park and continent from FeatureCollections
+var yellowstone = WDPA.filter(ee.Filter.eq('NAME', 'Yellowstone'));
+var nAmerica = table.filter(ee.Filter.eq('CONTINENT', 'North America'));
+
+//Have to get geometry of a FeatureCollection of park and continent in order to do intersection
+var yellowstone = ee.FeatureCollection(yellowstone)
+  .geometry();
+var nAmerica = ee.FeatureCollection(nAmerica)
+  .geometry();
+Map.addLayer(yellowstone, {color: 'FF0000'}, 'Yellowstone');
+var Abeillei = ee.FeatureCollection(Abeillei)
+  .geometry();
+Map.addLayer(Abeillei,{color: '00FF00'},'Abeillei');
+
+
+/*
+//Add geometries to see on map
+Map.addLayer(yellowstone, {color: 'FF0000'}, 'Yellowstone');
+Map.addLayer(nAmerica, {color: '0000FF'}, 'North America');
+
+//Find and display intersection of two "geometries" of WDPA and continent
+var intersection = yellowstone.intersection(nAmerica);
+Map.addLayer(intersection, {color: '00FF00'}, 'Intersection');
+
+//Clip GFC to show forest cover in intersecting regions
+var yellowstoneForest = GFC.clip(yellowstone);
+Map.addLayer(yellowstoneForest);
+
+//Want treecover 2000 and loss - figure out numbers of output
+
+//Create 15 km buffer around protected area
+//var yellowstonePolygon = ee.Geometry.MultiPolygon(yellowstone);
+var yellowstoneBuffer = yellowstone.buffer(15000);
+Map.addLayer(yellowstoneBuffer, {color: 'ff8c1a'}, 'Yellowstone Buffer');
+
+//print(yellowstoneBuffer);
+
+*/
+
+//Loop over every item in a collection using map() instead of for loops
+// Find area of each continent using "loop" like function
+
+/*
+var addArea = function(feature) {
+  return feature.set({area: feature.geometry().area()});
+};
+var areaAdded = table.map(addArea);
+// adds just first feature (South America) print('First feature: ', areaAdded.first());
+print(areaAdded);
+*/
+
+var addGeom = function(feature) {
+  return feature.set({geometry: feature.geometry()});
+};
+var continentGeoms = table.map(addGeom);
+// adds just first feature (South America) print('First feature: ', areaAdded.first());
+print(continentGeoms);
+
+
+//Gets all park geoms but gives error because there are too many elements :(
+//var parkGeoms = WDPA.map(addGeom);
+//print(parkGeoms);
+
+//Find where park and continents intersect
+var findIntersects = function(feature) {
+  return feature.set({intersect: feature.intersection(yellowstone)});
+};
+var ContinentToParkIntersect = table.map(findIntersects);
+print(ContinentToParkIntersect);
+
+//Try to find areas of intersect between Yellowstone and continents
+var findIntersectsAndArea = function(feature) {
+  return feature.set({intersectarea: feature.intersection(yellowstone).area()});
+};
+var ContinentToParkIntersectArea = table.map(findIntersectsAndArea);
+print(ContinentToParkIntersectArea);
+
+//Map.addLayer(ContinentToParkIntersect,{color: '0000FF'}, 'Yellowstone'); 
+//Don't know how to add this as layer
+
+//Find intersects between range and continents
+var findIntersects = function(feature) {
+  return feature.set({intersect: feature.intersects(Abeillei)});
+};
+var ContinentToAbeilleiIntersect = table.map(findIntersects);
+print(ContinentToAbeilleiIntersect);
