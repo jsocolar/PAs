@@ -1,0 +1,34 @@
+//This code is just to make the 200+ variable names for everything we need to do in earth engine
+
+myCoverLossCode <- c("var areaCoverSubsetz = areaCover.reduceRegions({collection: WDPASubsetz,reducer: ee.Reducer.sum(), scale: scale,}); var sumCoverSubsetz = areaCoverSubsetz.aggregate_array('sum'); var objectCoverSubsetz = {sumCoverSubsetz: sumCoverSubsetz,}; var fcCoverSubsetz = ee.FeatureCollection(ee.Feature(null, objectCoverSubsetz)); Export.table.toDrive(fcCoverSubsetz,  'fcCoverSubsetz',  'CSV'); var areaLossSubsetz = areaLoss.reduceRegions({ collection: WDPASubsetz,  reducer: ee.Reducer.sum(), scale: scale, });var sumLossSubsetz = areaLossSubsetz.aggregate_array('sum'); var objectLossSubsetz = { sumLossSubsetz: sumLossSubsetz, };var fcLossSubsetz = ee.FeatureCollection(ee.Feature(null, objectLossSubsetz)); Export.table.toDrive(fcLossSubsetz,  'fcLossSubsetz',  'CSV');")
+
+z <- 0
+
+myCoverLossloop<-for(z in 0:203) {
+  subset<- assign(paste("Subset",z,sep=""),z+1)
+     newCoverLossCode<-gsub("z", subset, myCoverLossCode)
+     print(newCoverLossCode)
+}
+#####
+getParkNames <- c("var namesWDPASubsetz = WDPASubsetz.reduceColumns({reducer: ee.Reducer.toList(), selectors: ['NAME'],});")
+
+z <- 0
+
+ParkNamesloop<-for(z in 0:203) {
+  subset<- assign(paste("Subset",z,sep=""),z+1)
+  newParkNames<-gsub("z", subset, getParkNames)
+  print(newParkNames)
+}
+
+######
+myBirdParkCode <- c("var Forest1Subsetz = (WDPASubsetz.map(mapListForest1)).aggregate_array('sList');var objectForest1Subsetz = {index: namesWDPASubsetz,    sList: Forest1Subsetz  }   var fcForest1Subsetz = ee.FeatureCollection(ee.Feature(null, objectForest1Subsetz)); Export.table.toDrive(fcForest1Subsetz, 'fcForest1Subsetz', 'CSV');   ")
+
+z <- 0
+
+myBirdParkloop<-for(z in 0:203) {
+  subset<- assign(paste("Subset",z,sep=""),z+1)
+  newBirdParkCode<-gsub("z", subset, myBirdParkCode)
+  print(newBirdParkCode)
+}
+
+### Once you get all the code here, then change Forest 1 to Forest 1:7 in Word.
