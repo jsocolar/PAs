@@ -1,0 +1,55 @@
+var spatialFilter = ee.Filter.intersects({
+  leftField: '.geo',
+  rightField: '.geo',
+  maxError: 10
+});
+
+var saveAllJoin = ee.Join.saveAll({
+  matchesKey: 'scenes'
+});
+
+var intersectFun = function(park, birdColl) {
+  return saveAllJoin.apply(birdColl, park, spatialFilter)
+  .reduceColumns({
+  reducer: ee.Reducer.toList(),
+  selectors: ['SCINAME'],
+  })
+};
+
+var mapListForest1 = function(park) {
+  return park.set('sList', intersectFun(park, forest1));
+};
+var mapListForest2 = function(park) {
+  return park.set('sList', intersectFun(park, forest2));
+};
+var mapListForest3 = function(park) {
+  return park.set('sList', intersectFun(park, forest3));
+};
+var mapListForest4 = function(park) {
+  return park.set('sList', intersectFun(park, forest4));
+};
+var mapListForest5 = function(park) {
+  return park.set('sList', intersectFun(park, forest5));
+};
+var mapListForest6 = function(park) {
+  return park.set('sList', intersectFun(park, forest6));
+};
+var mapListForest7 = function(park) {
+  return park.set('sList', intersectFun(park, forest7));
+};
+
+var WDPASubset1 = ee.FeatureCollection(WDPA.toList(3, 0));
+var namesWDPASubset1 = WDPASubset1.reduceColumns({
+  reducer: ee.Reducer.toList(),
+  selectors: ['NAME'],
+});
+
+var Forest1Subset1 = (WDPASubset1.map(mapListForest1)).aggregate_array('sList');
+
+var objectForest1Subset1 = {
+  index: namesWDPASubset1,
+  sList: Forest1Subset1
+};
+
+var fcForest1Subset1 = ee.FeatureCollection(ee.Feature(null, objectForest1Subset1));
+Export.table.toDrive(fcForest1Subset1, 'fcForest1Subset1', 'CSV');
