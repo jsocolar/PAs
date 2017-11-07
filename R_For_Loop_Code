@@ -1,4 +1,4 @@
-//This code is just to make the 200+ variable names for everything we need to do in earth engine
+##This code is just to make the 200+ variable names for everything we need to do in earth engine
 
 myCoverLossCode <- c("var areaCoverSubsetz = areaCover.reduceRegions({collection: WDPASubsetz,reducer: ee.Reducer.sum(), scale: scale,}); var sumCoverSubsetz = areaCoverSubsetz.aggregate_array('sum'); var objectCoverSubsetz = {sumCoverSubsetz: sumCoverSubsetz,}; var fcCoverSubsetz = ee.FeatureCollection(ee.Feature(null, objectCoverSubsetz)); Export.table.toDrive(fcCoverSubsetz,  'fcCoverSubsetz',  'CSV'); var areaLossSubsetz = areaLoss.reduceRegions({ collection: WDPASubsetz,  reducer: ee.Reducer.sum(), scale: scale, });var sumLossSubsetz = areaLossSubsetz.aggregate_array('sum'); var objectLossSubsetz = { sumLossSubsetz: sumLossSubsetz, };var fcLossSubsetz = ee.FeatureCollection(ee.Feature(null, objectLossSubsetz)); Export.table.toDrive(fcLossSubsetz,  'fcLossSubsetz',  'CSV');")
 
