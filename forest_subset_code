@@ -1,3 +1,5 @@
+NEED TO CHANGE TO GET RID OF "PRINT" SECTION
+
 var Forest1Subset1 = (WDPASubset1.map(mapListForest1)).aggregate_array('sList');var objectForest1Subset1 = {  index: namesWDPASubset1,  sList: Forest1Subset1};var fcForest1Subset1 = ee.FeatureCollection(ee.Feature(null, objectForest1Subset1));print('objectForest1Subset1', objectForest1Subset1);Export.table.toDrive(fcForest1Subset1, 'fcForest1Subset1', 'CSV');
 var Forest2Subset1 = (WDPASubset1.map(mapListForest2)).aggregate_array('sList');var objectForest2Subset1 = {  index: namesWDPASubset1,  sList: Forest2Subset1};var fcForest2Subset1 = ee.FeatureCollection(ee.Feature(null, objectForest2Subset1));print('objectForest2Subset1', objectForest2Subset1);Export.table.toDrive(fcForest2Subset1, 'fcForest2Subset1', 'CSV');
 var Forest3Subset1 = (WDPASubset1.map(mapListForest3)).aggregate_array('sList');var objectForest3Subset1 = {  index: namesWDPASubset1,  sList: Forest3Subset1};var fcForest3Subset1 = ee.FeatureCollection(ee.Feature(null, objectForest3Subset1));print('objectForest3Subset1', objectForest3Subset1);Export.table.toDrive(fcForest3Subset1, 'fcForest3Subset1', 'CSV');
